@@ -28,39 +28,48 @@ void setup() {
   uint16_t readData = 0;
 
   int result =  MLX90640_I2CRead(0x33, 0x240F, 2, &readData);
+  #ifdef DEBUG
   Serial.print("result: ");
   Serial.println(result);
   Serial.println("----");
   Serial.print("I2C address BE33: ");
   Serial.println(readData, HEX);
+  #endif
 
   delay(100);
 
   // write 0x00 to clear
   result = MLX90640_I2CWrite(0x33, 0x240F, 0);
+  #ifdef DEBUG
   Serial.print("result: ");
   Serial.println(result);
   Serial.println("----");
+  #endif
 
   delay(100);
 
   result =  MLX90640_I2CRead(0x33, 0x240F, 2, &readData);
+  #ifdef DEBUG
   Serial.print("result: ");
   Serial.println(result);
   Serial.println("----");
   Serial.print("I2C address 0: ");
   Serial.println(readData, HEX);
+  #endif
 
   // write new address
   result = MLX90640_I2CWrite(0x33, 0x240F, 0xBE32);
+  #ifdef DEBUG
   Serial.print("result: ");
   Serial.println(result);
   Serial.println("----");
+  #endif
 
   delay(100);
 
   // power cycle needed t oread from new address
   result =  MLX90640_I2CRead(0x32, 0x240F, 2, &readData);
+  #ifdef DEBUG
   Serial.print("result: ");
   Serial.println(result);
   Serial.println("----");
@@ -69,6 +78,7 @@ void setup() {
   
   Serial.println();
   Serial.println("---- done ----");
+  #endif
 
 }
 
