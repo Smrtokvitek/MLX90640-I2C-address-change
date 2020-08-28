@@ -27,6 +27,8 @@ void setup() {
 
   uint16_t readData = 0;
 
+  // read actual address value from the sensor with 0x33 address
+  // should be 0x33 (0xBE33)
   int result =  MLX90640_I2CRead(0x33, 0x240F, 2, &readData);
   #ifdef DEBUG
   Serial.print("result: ");
@@ -38,7 +40,7 @@ void setup() {
 
   delay(100);
 
-  // write 0x00 to clear
+  // write 0x00 to erase the address register
   result = MLX90640_I2CWrite(0x33, 0x240F, 0);
   #ifdef DEBUG
   Serial.print("result: ");
@@ -47,7 +49,9 @@ void setup() {
   #endif
 
   delay(100);
-
+  
+  // read the address regiseter back to see if it was erased
+  // should be 0x00
   result =  MLX90640_I2CRead(0x33, 0x240F, 2, &readData);
   #ifdef DEBUG
   Serial.print("result: ");
@@ -57,7 +61,7 @@ void setup() {
   Serial.println(readData, HEX);
   #endif
 
-  // write new address
+  // write the new address 0x32 (0xBE32)
   result = MLX90640_I2CWrite(0x33, 0x240F, 0xBE32);
   #ifdef DEBUG
   Serial.print("result: ");
@@ -67,7 +71,7 @@ void setup() {
 
   delay(100);
 
-  // power cycle needed t oread from new address
+  // in this place the power cycle is needed to read data from the device with changed I2C address
   result =  MLX90640_I2CRead(0x32, 0x240F, 2, &readData);
   #ifdef DEBUG
   Serial.print("result: ");
@@ -79,7 +83,6 @@ void setup() {
   Serial.println();
   Serial.println("---- done ----");
   #endif
-
 }
 
 
@@ -87,7 +90,7 @@ void setup() {
 // LOOP
 // ==================
 void loop() {
-
+  // nothing here, everything happens in setup()
 }
 
 //Read a number of words from startAddress. Store into Data array.
